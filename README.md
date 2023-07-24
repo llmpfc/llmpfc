@@ -1,4 +1,4 @@
-### Hi there 👋
+### This repository contains code files for building prefrontal cortex inspired meta architecture using LLMs.
 
 <!--
 **llmpfc/llmpfc** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
