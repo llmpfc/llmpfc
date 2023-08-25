@@ -156,6 +156,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument
 parser.add_argument('--openai_api_key', type = str, help='openai key', required= True)
 parser.add_argument('--output_dir',type=str, help='directory name where output log files will be stored', required= True)
+parser.add_argument('--start_idx',default=0, type=int, help='index of first problem')
+parser.add_argument('--end_idx', default=26, type=int, help='index of last problem')
 
 args = parser.parse_args()
 print(args)
@@ -167,7 +169,7 @@ number_target_mapping = {3:"C = [0, 1, 2]", 4:"C = [0, 1, 2, 3]",5:"C = [0, 1, 2
 char_int_mapping = {'A':0,'B':1,'C':2}
 num_input_tokens = 0 
 num_output_tokens = 0
-for i in range(26):
+for i in range(args.start_idx,args.end_idx):
 	A=all_As[i] 
 
 	B=all_Bs[i]

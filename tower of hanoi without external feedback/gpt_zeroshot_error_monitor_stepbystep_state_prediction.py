@@ -457,6 +457,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument
 parser.add_argument('--openai_api_key', type = str, help='openai key', required= True)
 parser.add_argument('--output_dir',type=str, help='directory name where output log files will be stored', required= True)
+parser.add_argument('--start_idx',default=0, type=int, help='index of first problem')
+parser.add_argument('--end_idx', default=26, type=int, help='index of last problem')
 
 args = parser.parse_args()
 print(args)
@@ -467,7 +469,7 @@ num_input_tokens = 0
 num_output_tokens = 0
 num_move_validator_interactions_allprobs_eachstep = []
 
-for i in range(26):
+for i in range(args.start_idx,args.end_idx):
 	previous_move = None
 
 	A=all_As[i] 

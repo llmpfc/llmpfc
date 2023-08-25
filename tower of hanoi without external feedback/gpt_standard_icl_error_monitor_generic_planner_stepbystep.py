@@ -768,6 +768,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument
 parser.add_argument('--openai_api_key', type = str, help='openai key', required= True)
 parser.add_argument('--output_dir',type=str, help='directory name where output log files will be stored', required= True)
+parser.add_argument('--start_idx',default=0, type=int, help='index of first problem')
+parser.add_argument('--end_idx', default=26, type=int, help='index of last problem')
 
 args = parser.parse_args()
 print(args)
@@ -778,7 +780,7 @@ openai.api_key = args.openai_api_key
 num_input_tokens = 0 
 num_output_tokens = 0
 icl_examples = [ 3, 22, 40, 62, 80]
-for i in range(26):
+for i in range(args.start_idx,args.end_idx):
 	if (i+1) not in icl_examples:
 		A=all_As[i] 
 
@@ -791,8 +793,12 @@ for i in range(26):
 		num_disks = max(A+B+C)+1
 		
 		start_configuration = [A,B,C]
+		if num_disks==3:
 
-		goal_configuration = [[],[],[0,1,2]]
+
+			goal_configuration = [[],[],[0,1,2]]
+		else:
+			goal_configuration = [[],[],[0,1,2,3]]
 				
 
 			
