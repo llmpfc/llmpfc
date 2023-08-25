@@ -21,11 +21,30 @@ GPT-4(ICL) + State predictor + Monitor - `tower of hanoi without external feedba
 GPT-4(ICL) + State predictor + Monitor + Planner - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_generic_planner_stepbystep.py`
 
 To run the optimal policy, `cd tower\ of\ hanoi\ without\ external\ feedback`, then `python solve_toh.py`
-The first 26 generated log files (problem1.log to problem26.log) are tower of hanoi problems with three numbers, the next 80 log files (problem27.log to problem106.log) are with four numbers.
+The first 26 generated log files (problem1.log to problem26.log) are tower of hanoi problems with three disks, the next 80 log files (problem27.log to problem106.log) are with four disks.
 
 To run any of the above GPT-4 models you need to specify two required arguments- 1) openai API key 2) directory name where output log files will be stored
 
 For e.g. to run GPT-4(ICL) + State predictor + Monitor + Planner, `cd tower\ of\ hanoi\ without\ external\ feedback`, then `python gpt_standard_icl_error_monitor_generic_planner_stepbystep.py --openai_api_key '<YOUR OPENAI KEY>' --output_dir '<OUTPUT DIRECTORY NAME>'`
+
+By default, all GPT-4 runs are on problems with 3 disks. To run on 4 disks, add `--start_idx 26 --end_idx 106` to the arguments and also specify a different output directory to store the log files.
+
+### Evaluation
+
+There are four files in eval_scripts named `gpt_zeroshot_fullsequence_eval_script.py, gpt_icl_fullsequence_eval_script.py, gpt_zeroshot_stepbystep_eval_script.py, gpt_icl_stepbystep_eval_script.py`
+
+To run them you need to specify three required arguments- 1) number of disks 2) maximum number of moves allowed 3) directory name where output log files are stored
+
+To evaluate GPT-4(zero-shot) `cd eval\ scripts`, and then run `python gpt_zeroshot_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+
+To evaluate GPT-4(ICL), `cd eval\ scripts`, and then run `python gpt_icl_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+
+To evaluate other GPT-4 zeroshot models `cd eval\ scripts`, and then run `python gpt_zeroshot_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+
+To evaluate other GPT-4 ICL models `cd eval\ scripts`, and then run `python gpt_icl_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+
+
+To evaluate on 4 disks just change to `--num_disks 4 --max_moves 20 `
 
 ## CogEval
 
