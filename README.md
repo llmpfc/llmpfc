@@ -31,20 +31,20 @@ By default, all GPT-4 runs are on problems with 3 disks. To run on 4 disks, add 
 
 ### Evaluation
 
-There are four files in eval_scripts named `gpt_zeroshot_fullsequence_eval_script.py, gpt_icl_fullsequence_eval_script.py, gpt_zeroshot_stepbystep_eval_script.py, gpt_icl_stepbystep_eval_script.py`
+There are four files in folder `eval scripts` named `gpt_zeroshot_fullsequence_eval_script.py, gpt_icl_fullsequence_eval_script.py, gpt_zeroshot_stepbystep_eval_script.py, gpt_icl_stepbystep_eval_script.py`
 
 To run them you need to specify three required arguments- 1) number of disks 2) maximum number of moves allowed 3) directory name where output log files are stored
 
-To evaluate GPT-4(zero-shot) `cd eval\ scripts`, and then run `python gpt_zeroshot_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+To evaluate only GPT-4(zero-shot) `cd eval\ scripts`, and then run `python gpt_zeroshot_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
 
-To evaluate GPT-4(ICL), `cd eval\ scripts`, and then run `python gpt_icl_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+To evaluate only GPT-4(ICL), `cd eval\ scripts`, and then run `python gpt_icl_fullsequence_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
 
-To evaluate other GPT-4 zeroshot models `cd eval\ scripts`, and then run `python gpt_zeroshot_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+To evaluate GPT-4(zero-shot) combined with other modules, `cd eval\ scripts`, and then run `python gpt_zeroshot_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
 
-To evaluate other GPT-4 ICL models `cd eval\ scripts`, and then run `python gpt_icl_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
+To evaluate GPT-4(ICL) combined with other modules, `cd eval\ scripts`, and then run `python gpt_icl_stepbystep_eval_script.py --num_disks 3 --max_moves 10 --output_dir '<OUTPUT DIRECTORY NAME>'`
 
 
-To evaluate on 4 disks just change to `--num_disks 4 --max_moves 20 `
+To evaluate on 4 disks just change to `--num_disks 4 --max_moves 20`
 
 ## CogEval
 
