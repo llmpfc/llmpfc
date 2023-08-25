@@ -1,4 +1,4 @@
-# This repository contains code files for building modules using LLMs inspired by the different functions of the prefrontal cortex.
+# This repository contains code for building modules using LLMs inspired by the different functions of the prefrontal cortex.
 
 ## Tower of Hanoi
 
