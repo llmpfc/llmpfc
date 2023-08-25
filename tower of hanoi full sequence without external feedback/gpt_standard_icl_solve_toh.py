@@ -1,6 +1,6 @@
 import openai
 from gen_start_config import *
-from five_shot_3numbers_examples import standard_prompt
+from toh_five_shot_examples import standard_prompt
 import time
 import os
 import argparse
@@ -12,8 +12,9 @@ all_As, all_Bs, all_Cs = generate_all_start_config()
 
 number_message_mapping = {3:"three numbers -- 0, 1, and 2 --", 4:"four numbers -- 0, 1, 2, and 3 --",5:"five numbers -- 0, 1, 2, 3, and 4 --"}
 number_target_mapping = {3:"C = [0, 1, 2]", 4:"C = [0, 1, 2, 3]",5:"C = [0, 1, 2, 3, 4]"}
- 
-icl_examples = [1, 3, 19, 22, 24]
+num_steps = {3:"10",4:"20"}
+
+icl_examples = [3, 22, 40, 62, 80]
 #
 
 def check_path(path):
@@ -26,13 +27,15 @@ parser = argparse.ArgumentParser()
 parser.add_argument
 parser.add_argument('--openai_api_key', type = str, help='openai key', required= True)
 parser.add_argument('--output_dir',type=str, help='directory name where output log files will be stored', required= True)
+parser.add_argument('--start_idx',default=0, type=int, help='index of first problem')
+parser.add_argument('--end_idx', default=26, type=int, help='index of last problem')
 
 args = parser.parse_args()
 print(args)
 
 openai.api_key = args.openai_api_key
 
-for i in range(26):
+for i in range(args.start_idx,args.end_idx):
 	if (i+1) not in icl_examples:
 		A=all_As[i] 
 
@@ -69,14 +72,14 @@ for i in range(26):
 		B = []
 		{}
 		
-		Give me the sequence of moves to solve the puzzle from the starting configuration, updating the lists after each move. Please try to use as few moves as possible, and make sure to follow the rules listed above. Please limit your answer to a maximum of 10 steps.
+		Give me the sequence of moves to solve the puzzle from the starting configuration, updating the lists after each move. Please try to use as few moves as possible, and make sure to follow the rules listed above. Please limit your answer to a maximum of {} steps.
 		Please format your answer as below:
 		Step 1. Move <N> from <src> to <tgt>.
 		A = []
 		B = []
 		C = []
 
-		""".format(standard_prompt, "A = "+str(A),"B = "+str(B),"C = "+str(C),number_target_mapping[num_disks])
+		""".format(standard_prompt, "A = "+str(A),"B = "+str(B),"C = "+str(C),number_target_mapping[num_disks],num_steps[num_disks])
 
 		test_dir = './logs/'
 		check_path(test_dir)
