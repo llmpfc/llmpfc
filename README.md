@@ -2,21 +2,36 @@
 
 ## Tower of Hanoi
 
-GPT-4(zero-shot)
-GPT-4(ICL)
+The models implemented are:
+
+GPT-4(zero-shot) - `tower of hanoi full sequence without external feedback/gpt_solve_toh.py`
+
+GPT-4(ICL) - `tower of hanoi full sequence without external feedback/gpt_standard_icl_solve_toh.py`
+
 GPT-4(zero-shot) + State predictor
+
 GPT-4(ICL) + State predictor
+
 GPT-4(zero-shot) + State predictor + Monitor
+
 GPT-4(ICL) + State predictor + Monitor
+
 GPT-4(ICL) + State predictor + Monitor + Planner
 
 ## CogEval
 
+The models implemented are:
+
 GPT-4(zero-shot)
+
 GPT-4(ICL)
+
 GPT-4(zero-shot) + State predictor
+
 GPT-4(ICL) + State predictor
+
 GPT-4(zero-shot) + State predictor + Monitor
+
 GPT-4(ICL) + State predictor + Monitor
 
 
