@@ -2,9 +2,9 @@
 
 ## Tower of Hanoi
 
-The models implemented are:
+The models implemented and their corresponding files are:
 
-Optimal policy - 
+Optimal policy - `tower of hanoi without external feedback/solve_toh.py`
 
 GPT-4(zero-shot) - `tower of hanoi full sequence without external feedback/gpt_solve_toh.py`
 
@@ -19,6 +19,9 @@ GPT-4(zero-shot) + State predictor + Monitor - `tower of hanoi without external 
 GPT-4(ICL) + State predictor + Monitor - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_stepbystep_state_prediction.py`
 
 GPT-4(ICL) + State predictor + Monitor + Planner - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_generic_planner_stepbystep.py`
+
+To run the optimal policy, `cd tower of hanoi without external feedback`, then `python solve_toh.py`
+The first 26 generated log files (problem1.log to problem26.log) are tower of hanoi problems with three numbers, the next 80 log files (problem27.log to problem106.log) are with four numbers.
 
 ## CogEval
 
