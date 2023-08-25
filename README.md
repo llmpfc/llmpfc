@@ -20,8 +20,12 @@ GPT-4(ICL) + State predictor + Monitor - `tower of hanoi without external feedba
 
 GPT-4(ICL) + State predictor + Monitor + Planner - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_generic_planner_stepbystep.py`
 
-To run the optimal policy, `cd tower of hanoi without external feedback`, then `python solve_toh.py`
+To run the optimal policy, `cd tower\ of\ hanoi\ without\ external\ feedback`, then `python solve_toh.py`
 The first 26 generated log files (problem1.log to problem26.log) are tower of hanoi problems with three numbers, the next 80 log files (problem27.log to problem106.log) are with four numbers.
+
+To run any of the above GPT-4 models you need to specify two required arguments- 1) openai API key 2) directory name where output log files will be stored
+
+For e.g. to run GPT-4(ICL) + State predictor + Monitor + Planner, `cd tower\ of\ hanoi\ without\ external\ feedback`, then `python gpt_standard_icl_error_monitor_generic_planner_stepbystep.py --openai_api_key '<YOUR OPENAI KEY>' --output_dir '<OUTPUT DIRECTORY NAME>'`
 
 ## CogEval
 
