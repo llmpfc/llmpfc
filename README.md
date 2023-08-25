@@ -4,19 +4,21 @@
 
 The models implemented are:
 
+Optimal policy - 
+
 GPT-4(zero-shot) - `tower of hanoi full sequence without external feedback/gpt_solve_toh.py`
 
 GPT-4(ICL) - `tower of hanoi full sequence without external feedback/gpt_standard_icl_solve_toh.py`
 
-GPT-4(zero-shot) + State predictor
+GPT-4(zero-shot) + State predictor - `tower of hanoi without external feedback/gpt_zeroshot_stepbystep_state_prediction.py`
 
-GPT-4(ICL) + State predictor
+GPT-4(ICL) + State predictor - `tower of hanoi without external feedback/gpt_standard_icl_stepbystep_state_prediction.py`
 
-GPT-4(zero-shot) + State predictor + Monitor
+GPT-4(zero-shot) + State predictor + Monitor - `tower of hanoi without external feedback/gpt_zeroshot_error_monitor_stepbystep_state_prediction.py`
 
-GPT-4(ICL) + State predictor + Monitor
+GPT-4(ICL) + State predictor + Monitor - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_stepbystep_state_prediction.py`
 
-GPT-4(ICL) + State predictor + Monitor + Planner
+GPT-4(ICL) + State predictor + Monitor + Planner - `tower of hanoi without external feedback/gpt_standard_icl_error_monitor_generic_planner_stepbystep.py`
 
 ## CogEval
 
