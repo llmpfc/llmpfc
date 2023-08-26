@@ -16,6 +16,7 @@ def check_path(path):
 	if not os.path.exists(path):
 		os.mkdir(path)
 
+# module for predicting the next state given as input the current state (lists A, B, and C) and the next action
 def state_predictor_module(state_A,state_B,state_C,move_msg,num_input_tokens,num_output_tokens):
 
 	state_predictor_prompt = """Consider the following puzzle problem:
@@ -165,16 +166,20 @@ print(args)
 openai.api_key = args.openai_api_key
 
 number_message_mapping = {3:"three numbers -- 0, 1, and 2 --", 4:"four numbers -- 0, 1, 2, and 3 --",5:"five numbers -- 0, 1, 2, 3, and 4 --"}
-number_target_mapping = {3:"C = [0, 1, 2]", 4:"C = [0, 1, 2, 3]",5:"C = [0, 1, 2, 3, 4]"}
+number_target_mapping = {3:"C = [0, 1, 2]", 4:"C = [0, 1, 2, 3]",5:"C = [0, 1, 2, 3, 4]"} # mapping to target configuration for list C based on the number of disks
 char_int_mapping = {'A':0,'B':1,'C':2}
 num_input_tokens = 0 
 num_output_tokens = 0
+
+# iterating over the problems one at a time
+
 for i in range(args.start_idx,args.end_idx):
-	A=all_As[i] 
+	A=all_As[i] # list A at start
 
-	B=all_Bs[i]
+	B=all_Bs[i] # list B at start
 
-	C=all_Cs[i]
+	C=all_Cs[i] # list C at start
+
 	num_disks = max(A+B+C)+1
 	
 	start_configuration = [A,B,C]
@@ -197,7 +202,7 @@ for i in range(args.start_idx,args.end_idx):
 
 	
 
-	
+	# starting prompt with the problem description, starting and the goal configuration 
 
 	prompt = """
 
@@ -255,15 +260,7 @@ for i in range(args.start_idx,args.end_idx):
 	
 	
 
-		# input = [{
-		# 	"role": "system",
-		# 	"content": "you are an AI assistant",
-		# }]
-
-		# input.append({
-		# 	"role": "user",
-		# 	"content": prompt,
-		# })
+		# actor module proposing the next action from the current state
 
 		cur_try = 0
 		check_flag=0
@@ -290,7 +287,8 @@ for i in range(args.start_idx,args.end_idx):
 					num_output_tokens+=response["usage"]["completion_tokens"]
 
 								
-				
+				# extracting next action message according to the format in the starting prompt
+
 				gpt_truncated_response = None
 				for k in range(len(response.choices[0].message.content) - 27):
 					sub_str = response.choices[0].message.content[k:k+28]
@@ -316,30 +314,21 @@ for i in range(args.start_idx,args.end_idx):
 				
 				continue
 
-		
+		# use previous action if no action message is extracted according to the format
+
 		if gpt_truncated_response is None:
 			gpt_truncated_response = previous_gpt_truncated_response
 		else:
 			previous_gpt_truncated_response = gpt_truncated_response
-		# print("gpt full response>>>",response.choices[0].message.content)
-		# print("gpt truncated response>>>",gpt_truncated_response)
-		# gpt_orig_message = response.choices[0].message.content
-		# if "apolog" in gpt_orig_message:
-		# 	move_index =0 
-		# 	for idx,split_str in enumerate(gpt_orig_message.split(":")):
-		# 	    if "correct next move" in split_str or "next move" in split_str or "correct move" in split_str or "next valid move" in split_str:
-		# 	        move_index = idx+1
-					
-
-		# 	gpt_response = gpt_orig_message.split(":")[move_index].split(".")[0].replace(".","")
-		# else:
-
-		# 	gpt_response = gpt_orig_message.split(".")[0].replace(".","")
+		
 		print("gpt truncated response>>>",gpt_truncated_response)
 		no_to_move = int(gpt_truncated_response.split(" ")[1])
 		source_list = gpt_truncated_response.split(" ")[4]
 		target_list = gpt_truncated_response.split(" ")[7]
 		# print(gpt_response,no_to_move,source_list,target_list)
+		
+		# computing reward, invalid move messages, next configuration according to the external environment just for evaluation purposes (not fed as input to GPT-4)
+
 		total_reward+=-1
 		response_flag =0
 		if no_to_move not in current_configuration[char_int_mapping[source_list]]:
@@ -370,9 +359,12 @@ for i in range(args.start_idx,args.end_idx):
 		if response_flag==1:
 			total_reward+=-10
 
+		# predicitng next state given next action from the current state
+
 		next_state_prediction,num_input_tokens,num_output_tokens = state_predictor_module(first_temp_current_configuration[0], first_temp_current_configuration[1], first_temp_current_configuration[2] ,gpt_truncated_response,num_input_tokens,num_output_tokens)
 			
 
+		# current configuration based on the external environment and goal configuration  (not fed as input to GPT-4)
 		configuration_msg = """This is the current configuration:
 		{}
 		{}
@@ -389,6 +381,7 @@ for i in range(args.start_idx,args.end_idx):
 
 		""".format("A = "+str(current_configuration[0]),"B = "+str(current_configuration[1]),"C = "+str(current_configuration[2]),number_target_mapping[num_disks])
 
+		# current configuration based on the predicted next state and goal configuration 
 		internal_configuration_msg = """This is the current configuration:
 		{}
 		{}
@@ -409,6 +402,7 @@ for i in range(args.start_idx,args.end_idx):
 
 
 		
+		# next proposed action and current, goal configurations iteratively added to the prompt for the previous step
 
 		prompt+="\n"+gpt_truncated_response+ "." +"\n"+internal_configuration_msg
 
@@ -418,14 +412,7 @@ for i in range(args.start_idx,args.end_idx):
 		print("feedback>>",reward_message+"\n"+configuration_msg)
 
 		print("state predicitor configurations>>",internal_configuration_msg)
-	# 	input.append({
-	# 	"role": "assistant",
-	# 	"content": response.choices[0].message.content,
-	# })
-	# 	input.append({
-	# 	"role": "user",
-	# 	"content": reward_message+"\n"+configuration_msg,
-	# })
+
 		input = [{
 			"role": "system",
 			"content": "you are an AI assistant",
@@ -435,12 +422,16 @@ for i in range(args.start_idx,args.end_idx):
 			"role": "user",
 			"content": prompt,
 		})
+		
+		# terminate when the predicted state matches the goal configuration
 
 		if next_state_prediction == target_configuration:
 			flag=1
 			if current_configuration==target_configuration:
 
 				total_reward+=100
+
+			# store the entire solution alongwith the prompt in log files
 
 			test_dir = './logs/'
 			check_path(test_dir)
@@ -456,6 +447,7 @@ for i in range(args.start_idx,args.end_idx):
 			break
 
 	if flag==0:
+		# store the entire solution alongwith the prompt in log files
 		test_dir = './logs/'
 		check_path(test_dir)
 		output_dir = test_dir + args.output_dir + '/'
